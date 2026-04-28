@@ -1,4 +1,6 @@
 .env.example
+.env
+.envback
 .envfont
 node_modules/
 backend/node_modules/
