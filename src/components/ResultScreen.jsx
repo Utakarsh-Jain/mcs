@@ -5,11 +5,18 @@ function formatTime(seconds) {
 }
 
 export function ResultScreen({ onReplay, player, result, type }) {
-  const title = type === "victory" ? "Database Secured" : "Database Breached";
-  const subtitle =
-    type === "victory"
-      ? "Mission complete. The attacker has been locked out."
+  const isSecured = type === "victory" && result.score >= 1000;
+  
+  const title = isSecured ? "Database Secured" : "Security Compromised";
+  const subtitle = isSecured
+    ? "Mission complete. The attacker has been locked out."
+    : result.score < 1000 && type === "victory"
+      ? "Database nominally secured, but low performance left backdoors open."
       : "Mission failed. The attacker completed the breach.";
+
+  const handleRedirect = () => {
+    window.location.href = "https://mcs12.vercel.app/"; // Placeholder redirection
+  };
 
   return (
     <section className="screen screen-center">
@@ -39,9 +46,14 @@ export function ResultScreen({ onReplay, player, result, type }) {
         </div>
       </div>
 
-      <button className="primary-button" onClick={onReplay}>
-        Restart Mission
-      </button>
+      <div className="button-group">
+        <button className="primary-button" onClick={onReplay}>
+          Restart Mission
+        </button>
+        <button className="secondary-button" onClick={handleRedirect}>
+          Exit to Dashboard
+        </button>
+      </div>
     </section>
   );
 }
