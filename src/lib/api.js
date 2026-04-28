@@ -3,6 +3,7 @@ import { getTopScores, storeScore, upsertUser } from "./storage";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim();
 
 async function request(path, options = {}) {
+  console.log(`API Request: ${path}`, options);
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: {
       "Content-Type": "application/json",
@@ -12,10 +13,13 @@ async function request(path, options = {}) {
   });
 
   if (!response.ok) {
+    console.error(`API Error: ${response.status} for ${path}`);
     throw new Error(`Request failed: ${response.status}`);
   }
 
-  return response.json();
+  const data = await response.json();
+  console.log(`API Response from ${path}:`, data);
+  return data;
 }
 
 export async function registerOrLogin(payload) {
