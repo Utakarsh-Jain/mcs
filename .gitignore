@@ -1,4 +1,5 @@
 .env.example
+!backend/.env.example
 .env
 .envback
 .envfont
