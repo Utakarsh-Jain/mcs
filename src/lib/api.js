@@ -2,6 +2,12 @@ import { getTopScores, storeScore, upsertUser } from "./storage";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim();
 
+if (API_BASE_URL) {
+  console.log("🚀 API Mode: Using backend at", API_BASE_URL);
+} else {
+  console.warn("⚠️ LocalStorage Mode: No VITE_API_BASE_URL found. Data will NOT go to Supabase.");
+}
+
 async function request(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: {
