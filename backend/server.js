@@ -9,17 +9,19 @@ const port = Number(process.env.PORT || 4000);
 const allowedOrigins = [
   "http://localhost:4173",
   "http://127.0.0.1:4173",
-  process.env.FRONTEND_ORIGIN
+  ...(process.env.FRONTEND_ORIGIN?.split(",").map((origin) => origin.trim()) ?? [])
 ].filter(Boolean);
+const allowAllOrigins = allowedOrigins.length === 0;
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowAllOrigins || allowedOrigins.includes(origin)) {
         callback(null, true);
         return;
       }
 
+      console.warn("CORS blocked origin:", origin, "allowed:", allowedOrigins);
       callback(new Error("Origin not allowed by CORS"));
     }
   })
