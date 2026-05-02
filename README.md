@@ -2,7 +2,6 @@
 
 React-based version of the escape room game with:
 
-- separated HTML, CSS, and React modules
 - register/login gate before gameplay
 - local score persistence today
 - backend-ready API hooks for Vercel + SQL deployment later
